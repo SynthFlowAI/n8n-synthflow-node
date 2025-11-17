@@ -3,12 +3,14 @@ import {
 	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
+	Icon,
 } from 'n8n-workflow';
 
 export class SynthflowApi implements ICredentialType {
 	name = 'synthflowApi';
 	displayName = 'Synthflow API';
 	documentationUrl = 'https://docs.synthflow.ai/';
+	icon: Icon = 'file:../nodes/Synthflow/synthflow.svg' as Icon;
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Token',
@@ -33,8 +35,11 @@ export class SynthflowApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.synthflow.ai',
-			url: '/v2/calls',
+			url: '/v2/assistants',
 			method: 'GET',
+			qs: {
+				limit: 1,
+			},
 		},
 	};
 }
