@@ -2,7 +2,7 @@
 
 This is an n8n community node that lets you use [Synthflow AI](https://synthflow.ai/) in your n8n workflows.
 
-Synthflow AI enables you to create AI-powered voice agents that can make outbound calls automatically.
+Synthflow AI enables you to create and manage AI-powered voice agents and make outbound calls automatically via the Synthflow API.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
@@ -54,10 +54,21 @@ Initiates an outbound phone call using a Synthflow AI agent.
 
 **Optional Parameters:**
 - **Lead Email**: Customer's email for appointment booking
-- **Lead Timezone**: Customer's timezone (e.g., "Europe/Berlin")
+- **Lead Timezone**: Customer's timezone in IANA format (e.g., `Europe/Berlin`, `America/New_York`). See Synthflow's time zone reference in the docs.
+- **External Webhook URL**: Post-call webhook URL that will receive call data (such as status, transcript, and metadata). See the post-call webhook section in the Synthflow docs.
 - **Prompt**: Custom prompt to override the agent's default behavior
 - **Greeting**: Custom greeting message for when the call is answered
-- **Custom Variables**: Key-value pairs that can be dynamically injected into your agent's prompt
+- **Custom Variables**: Key-value pairs that map to Synthflow's Custom Variables feature and can be dynamically injected into your agent's prompt for personalization
+
+### Agent Operations
+
+In addition to making calls, the Synthflow node can manage your Synthflow agents:
+
+- **Create Agent**: Create a new Synthflow AI agent (outbound, inbound, or widget) including prompt, voice, language, and call behavior.
+- **Get Agent**: Retrieve a single Synthflow agent by its `model_id`.
+- **List Agents**: List Synthflow agents in your account using limit/offset pagination.
+- **Update Agent**: Update an existing Synthflow agent's configuration, including type, name, webhooks, recording settings, max duration, or full agent JSON.
+- **Delete Agent**: Delete a Synthflow agent by `model_id`.
 
 ## Credentials
 

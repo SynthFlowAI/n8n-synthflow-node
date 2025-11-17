@@ -43,31 +43,31 @@ export class Synthflow implements INodeType {
 					{
 						name: 'Make a Call',
 						value: 'makeCall',
-						description: 'Initiate a phone call using Synthflow AI agent',
+						description: 'Initiate an outbound phone call using a Synthflow AI agent',
 						action: 'Make a call',
 					},
 					{
 						name: 'Create Agent',
 						value: 'createAgent',
-						description: 'Create a new Synthflow agent',
+						description: 'Create a new Synthflow voice agent (outbound, inbound, or widget)',
 						action: 'Create an agent',
 					},
 					{
 						name: 'Get Agent',
 						value: 'getAgent',
-						description: 'Retrieve a single Synthflow agent by ID',
+						description: 'Retrieve a single Synthflow agent by model ID',
 						action: 'Get an agent',
 					},
 					{
 						name: 'List Agents',
 						value: 'listAgents',
-						description: 'List Synthflow agents in your account',
+						description: 'List Synthflow agents in your workspace',
 						action: 'List agents',
 					},
 					{
 						name: 'Update Agent',
 						value: 'updateAgent',
-						description: 'Update an existing Synthflow agent',
+						description: 'Update an existing Synthflow agent configuration',
 						action: 'Update an agent',
 					},
 					{
@@ -147,7 +147,8 @@ export class Synthflow implements INodeType {
 						type: 'string',
 						placeholder: 'Europe/Berlin',
 						default: '',
-						description: 'The customer\'s time zone that can be used to book an appointment',
+						description:
+							'The customer\'s time zone in IANA format (for example, Europe/Berlin, America/New_York)',
 					},
 					{
 						displayName: 'External Webhook URL',
@@ -155,7 +156,7 @@ export class Synthflow implements INodeType {
 						type: 'string',
 						default: '',
 						description:
-							'URL of the webhook that should receive data after the call, such as the transcript',
+							'Post-call webhook URL that will receive call data such as status, transcript, and metadata',
 					},
 					{
 						displayName: 'Prompt',
@@ -259,7 +260,7 @@ export class Synthflow implements INodeType {
 				},
 				default: '',
 				required: true,
-				description: 'Prompt the agent will use during calls',
+				description: 'Prompt the agent will use during conversations',
 				displayOptions: {
 					show: {
 						operation: ['createAgent'],
@@ -275,7 +276,7 @@ export class Synthflow implements INodeType {
 				},
 				default: '',
 				required: true,
-				description: 'Greeting message the agent will use at the start of the call',
+				description: 'Greeting message the agent will use at the start of the conversation',
 				displayOptions: {
 					show: {
 						operation: ['createAgent'],
@@ -349,7 +350,7 @@ export class Synthflow implements INodeType {
 						type: 'string',
 						default: '',
 						placeholder: '+18284265151',
-						description: 'Phone number attached to the agent',
+						description: 'Phone number attached to the agent for inbound or outbound calls',
 					},
 					{
 						displayName: 'External Webhook URL',
@@ -357,7 +358,7 @@ export class Synthflow implements INodeType {
 						type: 'string',
 						default: '',
 						description:
-							'URL of the webhook that should receive data after the call, such as the transcript',
+							'Post-call webhook URL that will receive call data such as status, transcript, and metadata',
 					},
 					{
 						displayName: 'Inbound Call Webhook URL',
@@ -365,14 +366,14 @@ export class Synthflow implements INodeType {
 						type: 'string',
 						default: '',
 						description:
-							'URL for your inbound webhook which will receive inbound call events for this agent',
+							'Webhook URL that will receive inbound call events for this agent',
 					},
 					{
 						displayName: 'Is Recording Enabled',
 						name: 'is_recording',
 						type: 'boolean',
 						default: false,
-						description: 'Whether conversation recording should be enabled for this agent',
+						description: 'Whether call recording should be enabled for this agent',
 					},
 					{
 						displayName: 'Max Duration (Seconds)',
@@ -382,14 +383,14 @@ export class Synthflow implements INodeType {
 							minValue: 1,
 						},
 						default: 0,
-						description: 'Maximum call length in seconds',
+						description: 'Maximum call length in seconds before the agent automatically ends the call',
 					},
 					{
 						displayName: 'Max Duration Enabled',
 						name: 'max_duration_is_enabled',
 						type: 'boolean',
 						default: false,
-						description: 'Whether there is a limit on call length',
+						description: 'Whether a maximum call length limit is enabled',
 					},
 					{
 						displayName: 'Agent JSON',
@@ -419,7 +420,7 @@ export class Synthflow implements INodeType {
 						type: 'boolean',
 						default: false,
 						description:
-							'Whether the agent should ask for consent to record the call',
+							'Whether the agent should ask the customer for consent to record the call',
 					},
 				],
 			},
