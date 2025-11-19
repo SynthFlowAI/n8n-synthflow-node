@@ -1,4 +1,4 @@
-# WARP.md
+# AGENTS.md
 
 This file provides guidance to WARP (warp.dev) when working with code in this repository.
 
@@ -12,7 +12,7 @@ This is an n8n community node package that integrates Synthflow AI's voice agent
 
 - **Node Implementation** (`nodes/Synthflow/Synthflow.node.ts`): Main node class that implements `INodeType`. Defines the UI properties, operations, and execution logic for making API calls to Synthflow.
   
-- **Credentials** (`credentials/SynthflowApi.credentials.ts`): Implements `ICredentialType` for API token authentication using Bearer token pattern. Includes credential testing against the `/v2/calls` endpoint.
+- **Credentials** (`credentials/SynthflowApi.credentials.ts`): Implements `ICredentialType` for API token authentication using Bearer token pattern. Includes credential testing against the `/v2/assistants` endpoint.
 
 ### Key Patterns
 

@@ -80,7 +80,7 @@ You can also create and manage Synthflow agents directly from n8n using the Synt
    - Agent Name
    - Prompt (instructions the agent will follow)
    - Greeting Message (opening line at the start of the call)
-   - LLM (e.g., `gpt-4.1-Mini`)
+   - LLM (e.g., `gpt-5.1` or `gpt-5`)
    - Language (e.g., `en`, `de`)
    - Voice ID
 6. (Optional) Add additional agent fields:

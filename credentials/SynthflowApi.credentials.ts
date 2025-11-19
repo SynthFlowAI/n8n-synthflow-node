@@ -10,7 +10,7 @@ export class SynthflowApi implements ICredentialType {
 	name = 'synthflowApi';
 	displayName = 'Synthflow API';
 	documentationUrl = 'https://docs.synthflow.ai/';
-	icon: Icon = 'file:../nodes/Synthflow/synthflow.svg' as Icon;
+	icon: Icon = 'file:synthflow.svg' as Icon;
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Token',

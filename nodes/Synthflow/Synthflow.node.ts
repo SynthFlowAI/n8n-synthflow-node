@@ -289,7 +289,7 @@ export class Synthflow implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				description: 'Language model identifier (for example, gpt-4.1-Mini)',
+				description: 'Language model identifier (for example, gpt-5.1 or gpt-5)',
 				displayOptions: {
 					show: {
 						operation: ['createAgent'],
@@ -612,10 +612,10 @@ export class Synthflow implements INodeType {
 					if (additionalFields.custom_variables?.variables?.length) {
 						body.custom_variables = additionalFields.custom_variables.variables
 							.filter((variable: any) => variable.key && variable.value)
-							.map((variable: any) => ({
-								key: variable.key,
-								value: variable.value,
-							}));
+							.reduce((acc: any, variable: any) => {
+								acc[variable.key] = variable.value;
+								return acc;
+							}, {});
 					}
 
 					const responseData = await this.helpers.httpRequestWithAuthentication.call(
