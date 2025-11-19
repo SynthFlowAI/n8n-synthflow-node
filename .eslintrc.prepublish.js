@@ -5,7 +5,7 @@ module.exports = {
 		ecmaVersion: 2020,
 		sourceType: 'module',
 	},
-	plugins: ['n8n-nodes-base'],
+	plugins: ['n8n-nodes-base', '@typescript-eslint'],
 	extends: ['plugin:n8n-nodes-base/nodes'],
 	rules: {
 		// Stricter rules for publishing
