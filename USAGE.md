@@ -6,7 +6,7 @@
 
 1. In your n8n installation, go to **Settings** > **Community Nodes**
 2. Click **Install**
-3. Enter: `n8n-nodes-synthflow`
+3. Enter: `@synthflow-ai/n8n-nodes-synthflow`
 4. Click **Install**
 
 ### Option 2: Development/Testing
@@ -19,7 +19,7 @@ npm link
 
 # In your n8n directory
 cd ~/.n8n/custom
-npm link n8n-nodes-synthflow
+npm link @synthflow-ai/n8n-nodes-synthflow
 
 # Restart n8n
 ```
@@ -29,7 +29,7 @@ npm link n8n-nodes-synthflow
 Add to your n8n Dockerfile:
 
 ```dockerfile
-RUN cd /usr/local/lib/node_modules/n8n && npm install n8n-nodes-synthflow
+RUN cd /usr/local/lib/node_modules/n8n && npm install @synthflow-ai/n8n-nodes-synthflow
 ```
 
 ## Configuration
@@ -172,7 +172,7 @@ You can use this data in subsequent nodes to:
 ### Node doesn't appear in n8n
 
 1. Restart n8n after installation
-2. Check that the package is installed: `npm list n8n-nodes-synthflow`
+2. Check that the package is installed: `npm list @synthflow-ai/n8n-nodes-synthflow`
 3. Verify n8n can access community nodes (check settings)
 
 ### Authentication Error

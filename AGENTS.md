@@ -61,7 +61,7 @@ npm run build
 npm link
 
 # In your n8n installation directory  
-npm link n8n-nodes-synthflow
+npm link @synthflow-ai/n8n-nodes-synthflow
 
 # Restart n8n to load changes
 ```

@@ -1,4 +1,4 @@
-# n8n-nodes-synthflow
+# @synthflow-ai/n8n-nodes-synthflow
 
 This is an n8n community node that lets you use [Synthflow AI](https://synthflow.ai/) in your n8n workflows.
 
@@ -21,7 +21,7 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 1. Go to **Settings > Community Nodes**
 2. Select **Install**
-3. Enter `n8n-nodes-synthflow` in **Enter npm package name**
+3. Enter `@synthflow-ai/n8n-nodes-synthflow` in **Enter npm package name**
 4. Agree to the [risks](https://docs.n8n.io/integrations/community-nodes/risks/) of using community nodes
 5. Select **Install**
 
@@ -32,13 +32,13 @@ After installing the node, you can use it like any other node. n8n displays the 
 To get started install the package in your n8n root directory:
 
 ```bash
-npm install n8n-nodes-synthflow
+npm install @synthflow-ai/n8n-nodes-synthflow
 ```
 
 For Docker-based deployments add the following line before the font installation command in your [n8n Dockerfile](https://github.com/n8n-io/n8n/blob/master/docker/images/n8n/Dockerfile):
 
 ```
-RUN cd /usr/local/lib/node_modules/n8n && npm install n8n-nodes-synthflow
+RUN cd /usr/local/lib/node_modules/n8n && npm install @synthflow-ai/n8n-nodes-synthflow
 ```
 
 ## Operations
@@ -159,7 +159,7 @@ Test the node by installing it in your n8n instance:
 npm link
 
 # In your n8n installation directory
-npm link n8n-nodes-synthflow
+npm link @synthflow-ai/n8n-nodes-synthflow
 
 # Restart n8n
 ```
