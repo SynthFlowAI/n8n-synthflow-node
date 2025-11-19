@@ -41,16 +41,16 @@ export class Synthflow implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Make a Call',
-						value: 'makeCall',
-						description: 'Initiate an outbound phone call using a Synthflow AI agent',
-						action: 'Make a call',
-					},
-					{
 						name: 'Create Agent',
 						value: 'createAgent',
 						description: 'Create a new Synthflow voice agent (outbound, inbound, or widget)',
 						action: 'Create an agent',
+					},
+					{
+						name: 'Delete Agent',
+						value: 'deleteAgent',
+						description: 'Delete a Synthflow agent',
+						action: 'Delete an agent',
 					},
 					{
 						name: 'Get Agent',
@@ -65,16 +65,16 @@ export class Synthflow implements INodeType {
 						action: 'List agents',
 					},
 					{
+						name: 'Make a Call',
+						value: 'makeCall',
+						description: 'Initiate an outbound phone call using a Synthflow AI agent',
+						action: 'Make a call',
+					},
+					{
 						name: 'Update Agent',
 						value: 'updateAgent',
 						description: 'Update an existing Synthflow agent configuration',
 						action: 'Update an agent',
-					},
-					{
-						name: 'Delete Agent',
-						value: 'deleteAgent',
-						description: 'Delete a Synthflow agent',
-						action: 'Delete an agent',
 					},
 				],
 				default: 'makeCall',
@@ -134,49 +134,6 @@ export class Synthflow implements INodeType {
 				},
 				options: [
 					{
-						displayName: 'Lead Email',
-						name: 'lead_email',
-						type: 'string',
-						placeholder: 'name@email.com',
-						default: '',
-						description: 'The customer\'s email that can be used to book an appointment',
-					},
-					{
-						displayName: 'Lead Timezone',
-						name: 'lead_timezone',
-						type: 'string',
-						placeholder: 'Europe/Berlin',
-						default: '',
-						description:
-							'The customer\'s time zone in IANA format (for example, Europe/Berlin, America/New_York)',
-					},
-					{
-						displayName: 'External Webhook URL',
-						name: 'external_webhook_url',
-						type: 'string',
-						default: '',
-						description:
-							'Post-call webhook URL that will receive call data such as status, transcript, and metadata',
-					},
-					{
-						displayName: 'Prompt',
-						name: 'prompt',
-						type: 'string',
-						typeOptions: {
-							rows: 4,
-						},
-						default: '',
-						description: 'Custom prompt for the AI agent to use during the call',
-					},
-					{
-						displayName: 'Greeting',
-						name: 'greeting',
-						type: 'string',
-						default: '',
-						placeholder: 'Hello, this is AI assistant calling...',
-						description: 'Custom greeting the agent will use when the call is answered',
-					},
-					{
 						displayName: 'Custom Variables',
 						name: 'custom_variables',
 						type: 'fixedCollection',
@@ -208,6 +165,49 @@ export class Synthflow implements INodeType {
 								],
 							},
 						],
+					},
+					{
+						displayName: 'External Webhook URL',
+						name: 'external_webhook_url',
+						type: 'string',
+						default: '',
+						description:
+							'Post-call webhook URL that will receive call data such as status, transcript, and metadata',
+					},
+					{
+						displayName: 'Greeting',
+						name: 'greeting',
+						type: 'string',
+						default: '',
+						placeholder: 'Hello, this is AI assistant calling...',
+						description: 'Custom greeting the agent will use when the call is answered',
+					},
+					{
+						displayName: 'Lead Email',
+						name: 'lead_email',
+						type: 'string',
+						placeholder: 'name@email.com',
+						default: '',
+						description: 'The customer\'s email that can be used to book an appointment',
+					},
+					{
+						displayName: 'Lead Timezone',
+						name: 'lead_timezone',
+						type: 'string',
+						placeholder: 'Europe/Berlin',
+						default: '',
+						description:
+							'The customer\'s time zone in IANA format (for example, Europe/Berlin, America/New_York)',
+					},
+					{
+						displayName: 'Prompt',
+						name: 'prompt',
+						type: 'string',
+						typeOptions: {
+							rows: 4,
+						},
+						default: '',
+						description: 'Custom prompt for the AI agent to use during the call',
 					},
 				],
 			},
@@ -335,6 +335,28 @@ export class Synthflow implements INodeType {
 				},
 				options: [
 					{
+						displayName: 'Agent JSON',
+						name: 'agentJson',
+						type: 'string',
+						typeOptions: {
+							rows: 6,
+						},
+						default: '',
+						description:
+							'Raw JSON for the agent object. If set, it will be merged into the generated agent configuration.',
+					},
+					{
+						displayName: 'Consent Message',
+						name: 'consent_message',
+						type: 'string',
+						typeOptions: {
+							rows: 3,
+						},
+						default: '',
+						description:
+							'Message the agent will say to ask the customer for consent to record the call',
+					},
+					{
 						displayName: 'Description',
 						name: 'description',
 						type: 'string',
@@ -343,14 +365,6 @@ export class Synthflow implements INodeType {
 						},
 						default: '',
 						description: 'Description of the agent',
-					},
-					{
-						displayName: 'Phone Number',
-						name: 'phone_number',
-						type: 'string',
-						default: '',
-						placeholder: '+18284265151',
-						description: 'Phone number attached to the agent for inbound or outbound calls',
 					},
 					{
 						displayName: 'External Webhook URL',
@@ -367,6 +381,14 @@ export class Synthflow implements INodeType {
 						default: '',
 						description:
 							'Webhook URL that will receive inbound call events for this agent',
+					},
+					{
+						displayName: 'Is Consent Enabled',
+						name: 'is_consent_enabled',
+						type: 'boolean',
+						default: false,
+						description:
+							'Whether the agent should ask the customer for consent to record the call',
 					},
 					{
 						displayName: 'Is Recording Enabled',
@@ -393,34 +415,12 @@ export class Synthflow implements INodeType {
 						description: 'Whether a maximum call length limit is enabled',
 					},
 					{
-						displayName: 'Agent JSON',
-						name: 'agentJson',
+						displayName: 'Phone Number',
+						name: 'phone_number',
 						type: 'string',
-						typeOptions: {
-							rows: 6,
-						},
 						default: '',
-						description:
-							'Raw JSON for the agent object. If set, it will be merged into the generated agent configuration.',
-					},
-					{
-						displayName: 'Consent Message',
-						name: 'consent_message',
-						type: 'string',
-						typeOptions: {
-							rows: 3,
-						},
-						default: '',
-						description:
-							'Message the agent will say to ask the customer for consent to record the call',
-					},
-					{
-						displayName: 'Is Consent Enabled',
-						name: 'is_consent_enabled',
-						type: 'boolean',
-						default: false,
-						description:
-							'Whether the agent should ask the customer for consent to record the call',
+						placeholder: '+18284265151',
+						description: 'Phone number attached to the agent for inbound or outbound calls',
 					},
 				],
 			},
@@ -445,8 +445,8 @@ export class Synthflow implements INodeType {
 				typeOptions: {
 					minValue: 1,
 				},
-				default: 20,
-				description: 'Number of agents to return per page',
+				default: 50,
+				description: 'Max number of results to return',
 				displayOptions: {
 					show: {
 						operation: ['listAgents'],
@@ -481,6 +481,23 @@ export class Synthflow implements INodeType {
 				},
 				options: [
 					{
+						displayName: 'Agent JSON',
+						name: 'agentJson',
+						type: 'string',
+						typeOptions: {
+							rows: 6,
+						},
+						default: '',
+						description:
+							'Raw JSON for the agent object. If set, it will replace any existing agent configuration in the update body.',
+					},
+					{
+						displayName: 'Agent Name',
+						name: 'agentName',
+						type: 'string',
+						default: '',
+					},
+					{
 						displayName: 'Agent Type',
 						name: 'agentType',
 						type: 'options',
@@ -500,71 +517,7 @@ export class Synthflow implements INodeType {
 							},
 						],
 					},
-					{
-						displayName: 'Agent Name',
-						name: 'agentName',
-						type: 'string',
-						default: '',
-					},
-					{
-						displayName: 'Description',
-						name: 'description',
-						type: 'string',
-						typeOptions: {
-							rows: 3,
-						},
-						default: '',
-					},
-					{
-						displayName: 'Phone Number',
-						name: 'phone_number',
-						type: 'string',
-						default: '',
-					},
-					{
-						displayName: 'External Webhook URL',
-						name: 'external_webhook_url',
-						type: 'string',
-						default: '',
-					},
-					{
-						displayName: 'Inbound Call Webhook URL',
-						name: 'inbound_call_webhook_url',
-						type: 'string',
-						default: '',
-					},
-					{
-						displayName: 'Is Recording Enabled',
-						name: 'is_recording',
-						type: 'boolean',
-						default: false,
-					},
-					{
-						displayName: 'Max Duration (Seconds)',
-						name: 'max_duration_duration_seconds',
-						type: 'number',
-						typeOptions: {
-							minValue: 1,
-						},
-						default: 0,
-					},
-					{
-						displayName: 'Max Duration Enabled',
-						name: 'max_duration_is_enabled',
-						type: 'boolean',
-						default: false,
-					},
-					{
-						displayName: 'Agent JSON',
-						name: 'agentJson',
-						type: 'string',
-						typeOptions: {
-							rows: 6,
-						},
-						default: '',
-						description:
-							'Raw JSON for the agent object. If set, it will replace any existing agent configuration in the update body.',
-					},
+
 				],
 			},
 		],
