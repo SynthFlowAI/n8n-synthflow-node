@@ -59,10 +59,45 @@ RUN cd /usr/local/lib/node_modules/n8n && npm install n8n-nodes-synthflow
    - **Recipient Name**: Name of the person (e.g., `John Doe`)
 6. (Optional) Add additional fields:
    - Lead Email
-   - Lead Timezone
+   - Lead Timezone (IANA timezone, e.g., `Europe/Berlin`, `America/New_York`)
    - Custom Prompt
    - Custom Greeting
-   - Custom Variables (key-value pairs)
+   - Custom Variables (key-value pairs that map to Synthflow Custom Variables for personalization)
+   - External Webhook URL (post-call webhook that will receive call status, transcript, and metadata)
+
+## Agent Management
+
+You can also create and manage Synthflow agents directly from n8n using the Synthflow node.
+
+### Create an Agent from n8n
+
+1. Create a new workflow in n8n
+2. Add a trigger node (e.g., Manual, Schedule, Webhook)
+3. Add the **Synthflow** node
+4. Set **Operation** to **Create Agent**
+5. Configure the basic agent fields:
+   - Agent Type (Outbound, Inbound, Widget)
+   - Agent Name
+   - Prompt (instructions the agent will follow)
+   - Greeting Message (opening line at the start of the call)
+   - LLM (e.g., `gpt-5.1` or `gpt-5`)
+   - Language (e.g., `en`, `de`)
+   - Voice ID
+6. (Optional) Add additional agent fields:
+   - Description
+   - Phone Number attached to the agent
+   - External Webhook URL (post-call webhook)
+   - Inbound Call Webhook URL (inbound call events)
+   - Recording and Max Duration options
+   - Consent Message and Consent Enabled
+   - Agent JSON (raw JSON to merge into the configuration)
+
+### Other Agent Operations
+
+- **Get Agent**: Retrieve a single agent by `model_id`.
+- **List Agents**: List agents with `limit` and `offset` for pagination.
+- **Update Agent**: Update specific fields using the **Update Fields** collection (type, name, webhooks, recording, max duration, or agent JSON).
+- **Delete Agent**: Delete an agent by `model_id`.
 
 ## Example Workflows
 

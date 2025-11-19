@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+description: "Enforces the high-level agent rules for this repository."
+---
+
+Always follow the rules, guidelines, and instructions defined in the @AGENTS.md file.
