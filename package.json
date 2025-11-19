@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-synthflow",
+  "name": "@synthflow-ai/n8n-nodes-synthflow",
   "version": "0.1.0",
   "description": "n8n node for Synthflow AI - Make a Call endpoint",
   "keywords": [
