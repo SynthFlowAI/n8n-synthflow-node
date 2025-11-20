@@ -11,7 +11,7 @@ Synthflow AI enables you to create and manage AI-powered voice agents and make o
 [Credentials](#credentials)  
 [Compatibility](#compatibility)  
 [Usage](#usage)  
-[Resources](#resources)  
+[Resources](#resources)
 
 ## Installation
 
@@ -48,17 +48,29 @@ RUN cd /usr/local/lib/node_modules/n8n && npm install @synthflow-ai/n8n-nodes-sy
 Initiates an outbound phone call using a Synthflow AI agent.
 
 **Required Parameters:**
+
 - **Model ID**: The ID of your Synthflow AI agent
 - **Phone Number**: Recipient's phone number in E.164 format (e.g., +1234567890)
 - **Recipient Name**: Name of the person being called
 
 **Optional Parameters:**
+
 - **Lead Email**: Customer's email for appointment booking
 - **Lead Timezone**: Customer's timezone in IANA format (e.g., `Europe/Berlin`, `America/New_York`). See Synthflow's time zone reference in the docs.
 - **External Webhook URL**: Post-call webhook URL that will receive call data (such as status, transcript, and metadata). See the post-call webhook section in the Synthflow docs.
 - **Prompt**: Custom prompt to override the agent's default behavior
 - **Greeting**: Custom greeting message for when the call is answered
 - **Custom Variables**: Key-value pairs that map to Synthflow's Custom Variables feature and can be dynamically injected into your agent's prompt for personalization
+
+### Call Operations
+
+Retrieve and analyze call data:
+
+- **Get Call**: Retrieve the transcript and metadata for a specific call by `call_id`. Returns detailed call information including transcript, duration, recording URL, end call reason, executed actions, and more.
+- **List Calls**: Get a paginated list of calls for a specific agent with optional filters:
+  - **Required**: Model ID
+  - **Optional filters**: Date range (from/to), call status, duration range (min/max), lead phone number
+  - Returns pagination info and array of call records
 
 ### Agent Operations
 
@@ -82,6 +94,7 @@ To use this node, you need a Synthflow API account and an API token.
 ## Compatibility
 
 This node has been tested with:
+
 - n8n version: 1.0.0+
 - Node.js version: 18.x, 20.x
 
@@ -100,6 +113,7 @@ This node has been tested with:
 ### Example Workflow
 
 **Automated Sales Calls:**
+
 ```
 Trigger (Webhook/Schedule)
   ↓
@@ -118,13 +132,14 @@ Log Results
 
 ## Resources
 
-* [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
-* [Synthflow API Documentation](https://docs.synthflow.ai/)
-* [Synthflow Website](https://synthflow.ai/)
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+- [Synthflow API Documentation](https://docs.synthflow.ai/)
+- [Synthflow Website](https://synthflow.ai/)
 
 ## Version History
 
 ### 0.1.0
+
 - Initial release
 - Support for "Make a Call" endpoint
 - Full parameter support including custom variables
@@ -173,4 +188,3 @@ npm link @synthflow-ai/n8n-nodes-synthflow
 For issues, questions, or contributions, please visit the [GitHub repository](https://github.com/yourusername/n8n-nodes-synthflow).
 
 For Synthflow-specific questions, contact [Synthflow support](https://synthflow.ai/support).
-
