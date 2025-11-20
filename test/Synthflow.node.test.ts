@@ -211,4 +211,216 @@ describe("Synthflow Node", () => {
       });
     });
   });
+
+  describe("getCall", () => {
+    it("should get a call by callId", async () => {
+      (mockExecuteFunctions.getNodeParameter as jest.Mock)
+        .mockReturnValueOnce("getCall") // operation
+        .mockReturnValueOnce("call-123"); // callId
+
+      (
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication as jest.Mock
+      ).mockResolvedValue({
+        status: "ok",
+        response: {
+          calls: [
+            {
+              call_id: "call-123",
+              model_id: "model-123",
+              transcript: "test transcript",
+              duration: 60,
+            },
+          ],
+        },
+      });
+
+      await node.execute.call(mockExecuteFunctions as IExecuteFunctions);
+
+      expect(
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication
+      ).toHaveBeenCalledWith("synthflowApi", {
+        method: "GET",
+        url: "https://api.synthflow.ai/v2/calls/call-123",
+        json: true,
+      });
+    });
+  });
+
+  describe("listCalls", () => {
+    it("should list calls with required parameters", async () => {
+      (mockExecuteFunctions.getNodeParameter as jest.Mock)
+        .mockReturnValueOnce("listCalls") // operation
+        .mockReturnValueOnce("model-123") // listCallsModelId
+        .mockReturnValueOnce(20) // listCallsLimit
+        .mockReturnValueOnce(0) // listCallsOffset
+        .mockReturnValueOnce({}); // listCallsFilters
+
+      (
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication as jest.Mock
+      ).mockResolvedValue({
+        status: "ok",
+        response: {
+          pagination: {
+            total_records: 100,
+            limit: 20,
+            offset: 0,
+          },
+          calls: [],
+        },
+      });
+
+      await node.execute.call(mockExecuteFunctions as IExecuteFunctions);
+
+      expect(
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication
+      ).toHaveBeenCalledWith("synthflowApi", {
+        method: "GET",
+        url: "https://api.synthflow.ai/v2/calls",
+        qs: {
+          model_id: "model-123",
+          limit: 20,
+          offset: 0,
+        },
+        json: true,
+      });
+    });
+
+    it("should list calls with all filters", async () => {
+      (mockExecuteFunctions.getNodeParameter as jest.Mock)
+        .mockReturnValueOnce("listCalls") // operation
+        .mockReturnValueOnce("model-123") // listCallsModelId
+        .mockReturnValueOnce(10) // listCallsLimit
+        .mockReturnValueOnce(5) // listCallsOffset
+        .mockReturnValueOnce({
+          from_date: 1700000000000,
+          to_date: 1700100000000,
+          call_status: "completed",
+          duration_min: 30,
+          duration_max: 300,
+          lead_phone_number: "%2B1234567890",
+        }); // listCallsFilters
+
+      (
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication as jest.Mock
+      ).mockResolvedValue({
+        status: "ok",
+        response: {
+          pagination: {
+            total_records: 5,
+            limit: 10,
+            offset: 5,
+          },
+          calls: [],
+        },
+      });
+
+      await node.execute.call(mockExecuteFunctions as IExecuteFunctions);
+
+      expect(
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication
+      ).toHaveBeenCalledWith("synthflowApi", {
+        method: "GET",
+        url: "https://api.synthflow.ai/v2/calls",
+        qs: {
+          model_id: "model-123",
+          limit: 10,
+          offset: 5,
+          from_date: 1700000000000,
+          to_date: 1700100000000,
+          call_status: "completed",
+          duration_min: 30,
+          duration_max: 300,
+          lead_phone_number: "%2B1234567890",
+        },
+        json: true,
+      });
+    });
+
+    it("should list calls with partial filters", async () => {
+      (mockExecuteFunctions.getNodeParameter as jest.Mock)
+        .mockReturnValueOnce("listCalls") // operation
+        .mockReturnValueOnce("model-123") // listCallsModelId
+        .mockReturnValueOnce(20) // listCallsLimit
+        .mockReturnValueOnce(0) // listCallsOffset
+        .mockReturnValueOnce({
+          call_status: "failed",
+          duration_min: 10,
+        }); // listCallsFilters
+
+      (
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication as jest.Mock
+      ).mockResolvedValue({
+        status: "ok",
+        response: {
+          pagination: {
+            total_records: 15,
+            limit: 20,
+            offset: 0,
+          },
+          calls: [],
+        },
+      });
+
+      await node.execute.call(mockExecuteFunctions as IExecuteFunctions);
+
+      expect(
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication
+      ).toHaveBeenCalledWith("synthflowApi", {
+        method: "GET",
+        url: "https://api.synthflow.ai/v2/calls",
+        qs: {
+          model_id: "model-123",
+          limit: 20,
+          offset: 0,
+          call_status: "failed",
+          duration_min: 10,
+        },
+        json: true,
+      });
+    });
+
+    it("should not include zero values for optional numeric filters", async () => {
+      (mockExecuteFunctions.getNodeParameter as jest.Mock)
+        .mockReturnValueOnce("listCalls") // operation
+        .mockReturnValueOnce("model-123") // listCallsModelId
+        .mockReturnValueOnce(20) // listCallsLimit
+        .mockReturnValueOnce(0) // listCallsOffset
+        .mockReturnValueOnce({
+          from_date: 0,
+          to_date: 0,
+          duration_min: 0,
+          duration_max: 0,
+        }); // listCallsFilters with zero values
+
+      (
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication as jest.Mock
+      ).mockResolvedValue({
+        status: "ok",
+        response: {
+          pagination: {
+            total_records: 100,
+            limit: 20,
+            offset: 0,
+          },
+          calls: [],
+        },
+      });
+
+      await node.execute.call(mockExecuteFunctions as IExecuteFunctions);
+
+      // Should not include zero values in query string
+      expect(
+        mockExecuteFunctions.helpers!.httpRequestWithAuthentication
+      ).toHaveBeenCalledWith("synthflowApi", {
+        method: "GET",
+        url: "https://api.synthflow.ai/v2/calls",
+        qs: {
+          model_id: "model-123",
+          limit: 20,
+          offset: 0,
+        },
+        json: true,
+      });
+    });
+  });
 });
