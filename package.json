@@ -11,14 +11,14 @@
     "call"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/yourusername/n8n-nodes-synthflow",
+  "homepage": "https://github.com/SynthFlowAI/n8n-synthflow-node",
   "author": {
     "name": "Albert Astabatsyan",
     "email": "albert@synthflow.ai"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/n8n-nodes-synthflow.git"
+    "url": "https://github.com/SynthFlowAI/n8n-synthflow-node.git"
   },
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,9 @@
     "prepare": "husky install"
   },
   "files": [
-    "dist"
+    "dist",
+    "credentials",
+    "nodes"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
